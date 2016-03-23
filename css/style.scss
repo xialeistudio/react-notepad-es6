@@ -1,0 +1,64 @@
+$defaultFont: "Consolas", "Microsoft YaHei", Arial, monospace;
+body {
+	font-family: $defaultFont;
+	font-size: 14px;
+}
+
+button {
+	font-family: $defaultFont;
+}
+
+.borderBox {
+	box-sizing: border-box;
+}
+
+.note-box {
+	&:after {
+		clear: both;
+		content: ' ';
+		display: block;
+	}
+	.note-list {
+		border-left: 1px solid #ccc;
+		border-right: 1px solid #ccc;
+		float: left;
+		width: 50%;
+		@extend .borderBox;
+		.note-item {
+			border-top: 1px solid #ccc;
+			padding: 8px;
+			&:last-of-type {
+				border-bottom: 1px solid #cccccc;
+			}
+			.id {
+
+			}
+			.text {
+
+			}
+			.operation {
+				button + button {
+					margin-left: 8px;
+				}
+			}
+		}
+	}
+	.note-form {
+		float: right;
+		width: 48%;
+		@extend .borderBox;
+		textarea {
+			font-family: $defaultFont;
+			outline: 0;
+			border-color: #cccccc;
+			display: block;
+			background: none;
+			width: 100%;
+			padding: 8px;
+			@extend .borderBox;
+		}
+		button {
+			margin: 8px 0;
+		}
+	}
+}
