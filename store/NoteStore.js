@@ -11,25 +11,26 @@ class NoteStore {
 MicroEvent.mixin(NoteStore);
 let store = new NoteStore();
 AppDispatcher.register((payload)=> {
-	let index = -1;
 	switch (payload.eventName) {
 		case 'create-note':
 			store.items.push(payload.item);
 			store.trigger('change');
 			break;
 		case 'update-note':
-			index = store.items.indexOf(payload.item);
-			if (index > -1) {
-				store.items[index] = payload.item;
-				store.trigger('change');
-			}
+			store.items.forEach(function(i, index2) {
+				if (i.id == payload.item.id) {
+					store.items[index2] = payload.item;
+					store.trigger('change');
+				}
+			});
 			break;
 		case 'remove-note':
-			index = store.items.indexOf(payload.item);
-			if (index > -1) {
-				store.items.splice(index, 1);
-				store.trigger('change');
-			}
+			store.items.forEach(function(i, index2) {
+				if (i.id == payload.item.id) {
+					store.items.splice(index2, 1);
+					store.trigger('change');
+				}
+			});
 			break;
 		case 'set-note':
 			store.trigger('set', payload.item);

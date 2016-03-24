@@ -25,7 +25,6 @@ export default class NoteAction {
 	}
 
 	static setNote(item) {
-		console.info('set', item);
 		AppDispatcher.dispatch({
 			eventName: 'set-note',
 			item: item

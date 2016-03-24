@@ -9,6 +9,14 @@ export default class NoteForm extends React.Component {
 		super();
 		this.handleClick = this.handleClick.bind(this);
 		this.handleSetNote = this.handleSetNote.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+		this.resetForm = this.resetForm.bind(this);
+		this.state = {
+			note: {
+				id: 0,
+				text: ''
+			}
+		};
 	}
 
 	componentDidMount() {
@@ -20,7 +28,7 @@ export default class NoteForm extends React.Component {
 	}
 
 	isCreate() {
-		return this.props.note === undefined;
+		return this.state.note.id == 0;
 	}
 
 	handleClick() {
@@ -30,7 +38,6 @@ export default class NoteForm extends React.Component {
 			this.refs.input.focus();
 			return;
 		}
-		this.refs.input.value = '';
 		if (this.isCreate()) {
 			let id = 1;
 			if (NoteStore.items.length > 0) {
@@ -42,25 +49,58 @@ export default class NoteForm extends React.Component {
 			});
 		}
 		else {
-			let note = this.props.note;
+			let note = this.state.note;
 			note.text = text;
 			NoteAction.update(note);
 		}
+		this.resetForm();
 	}
 
 	render() {
+		let note = this.state.note.text;
 		let btnText = this.isCreate() ? '创建' : '编辑';
-		let tips = this.isCreate() ? '' : '当前编辑 [' + this.props.note.id + '] 号日记';
+		let tips = this.isCreate() ? '' : '当前编辑 [' + this.state.note.id + '] 号日记';
 		return (
 				<div className="note-form">
 					<div>{tips}</div>
-					<textarea ref="input" rows="8" placeholder="日记内容"/>
+					<textarea ref="input" rows="8" placeholder="日记内容" value={note} onChange={this.handleChange}/>
 					<button type="button" onClick={this.handleClick}>{btnText}</button>
+					<button type="button" onClick={this.resetForm}>重置</button>
 				</div>
 		);
 	}
 
+	handleChange(e) {
+		if (this.isCreate()) {
+			this.setState({
+				note: {
+					id: 0,
+					text: e.target.value
+				}
+			});
+		}
+		else {
+			let id = this.state.note.id;
+			this.setState({
+				note: {
+					id: id,
+					text: e.target.value
+				}
+			});
+		}
+	}
+
 	handleSetNote(note) {
-		console.log('set-note', note);
+		this.setState({note: note});
+		console.log('set ', this.state.note);
+	}
+
+	resetForm() {
+		this.setState({
+			note: {
+				id: 0,
+				text: ''
+			}
+		});
 	}
 }

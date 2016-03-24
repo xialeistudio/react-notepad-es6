@@ -14,8 +14,7 @@ export default class Note extends React.Component {
 	}
 
 	handleUpdate() {
-		alert('处理中');
-		// NoteAction.setNote(this.props.note);
+		NoteAction.setNote(this.props.note);
 	}
 
 	handleDelete() {

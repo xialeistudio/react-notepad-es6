@@ -59,6 +59,10 @@ button {
 		}
 		button {
 			margin: 8px 0;
+			& ~ button {
+				margin-left: 8px;
+			}
 		}
+
 	}
 }
